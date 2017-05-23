@@ -6,9 +6,9 @@ defmodule XMapTest do
     xml = """
       <comments>
         <comment>
+          <author/>
           <body>Hello world!</body>
           <footer></footer>
-          <author/>
         </comment>
         <comment></comment>
         <comment/>
