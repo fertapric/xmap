@@ -73,14 +73,15 @@ defmodule XMap do
     %{"#{name}" => parse_record(value)}
   end
 
-  defp merge_records(record, ""), do: record
-  defp merge_records("", record), do: record
-  defp merge_records(record1, record2) do
-    Map.merge(record1, record2, fn
-      _, value1, value2 when is_list(value1) and is_list(value2) -> value1 ++ value2
-      _, value1, value2 when is_list(value1) -> value1 ++ [value2]
-      _, value1, value2 when is_list(value2) -> [value1] ++ value2
-      _, value1, value2 -> [value1, value2]
+  defp merge_records(r, ""), do: r # Spaces between tags are normalized but parsed as
+  defp merge_records("", r), do: r # empty xmlText elements.
+  defp merge_records(r1, r2) when is_binary(r1) and is_binary(r2), do: r1 <> r2
+  defp merge_records(r1, r2) do
+    Map.merge(r1, r2, fn
+      _, v1, v2 when is_list(v1) and is_list(v2) -> v1 ++ v2
+      _, v1, v2 when is_list(v1) -> v1 ++ [v2]
+      _, v1, v2 when is_list(v2) -> [v1] ++ v2
+      _, v1, v2 -> [v1, v2]
     end)
   end
 

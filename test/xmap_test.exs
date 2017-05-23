@@ -27,4 +27,22 @@ defmodule XMapTest do
       }
     }
   end
+
+  test "parses HTML special entities as a single text entry" do
+    xml = """
+    <comment>
+      <author>Fernando Tapia</author>
+      <body>&quot;Hello world!&quot;</body>
+    </comment>
+    """
+
+    map = XMap.from_xml(xml, keys: :atoms)
+
+    assert map == %{
+      comment: %{
+        author: "Fernando Tapia",
+        body: "\"Hello world!\""
+      }
+    }
+  end
 end
