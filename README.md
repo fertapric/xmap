@@ -40,7 +40,7 @@ Add XMap to your project's dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:xmap, "~> 0.1.0"}]
+  [{:xmap, "~> 0.2.0"}]
 end
 ```
 
