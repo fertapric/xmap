@@ -5,6 +5,8 @@ defmodule XMap do
   XMap transforms an XML string into a `Map` containing a collection of pairs
   where the key is the node name and the value is its content.
 
+  ## Examples
+
   Here is an example:
 
       iex> xml = """
@@ -24,8 +26,9 @@ defmodule XMap do
       iex> XMap.from_xml(xml, keys: :atoms)
       %{blog: %{post: [%{title: "Hello Elixir!"}, %{title: "Hello World!"}]}}
 
-  Unless you absolutely know what you're doing, do not use the `keys: :atoms`
-  option. Atoms are not garbage-collected, see Erlang Efficiency Guide for more info:
+  Keys can be converted to atoms with the `keys: :atoms` option. Unless you absolutely
+  know what you're doing, do not use the `keys: :atoms` option. Atoms are not garbage-collected,
+  see Erlang Efficiency Guide for more info:
 
   > Atoms are not garbage-collected. Once an atom is created, it will never
   > be removed. The emulator will terminate if the limit for the number of
@@ -36,7 +39,37 @@ defmodule XMap do
   Returns a `Map` containing a collection of pairs where the key is the node name
   and the value is its content.
 
+  ## Examples
+
   Here is an example:
+
+      iex> xml = """
+      ...> <?xml version="1.0" encoding="UTF-8"?>
+      ...> <post id="1">
+      ...>   <title>Hello world!</title>
+      ...>   <stats>
+      ...>     <visits type="integer">1000</visits>
+      ...>     <likes type="integer">3</likes>
+      ...>   </stats>
+      ...> </post>
+      ...> """
+      iex> XMap.from_xml(xml)
+      %{"post" => %{"stats" => %{"likes" => "3", "visits" => "1000"},
+                    "title" => "Hello world!"}}
+      iex> XMap.from_xml(xml, keys: :atoms)
+      %{post: %{stats: %{likes: "3", visits: "1000"}, title: "Hello world!"}}
+
+  Keys can be converted to atoms with the `keys: :atoms` option. Unless you absolutely
+  know what you're doing, do not use the `keys: :atoms` option. Atoms are not garbage-collected,
+  see Erlang Efficiency Guide for more info:
+
+  > Atoms are not garbage-collected. Once an atom is created, it will never
+  > be removed. The emulator will terminate if the limit for the number of
+  > atoms (1048576 by default) is reached.
+
+  ### XML attributes and comments
+
+  Both XML attributes and comments are ignored:
 
       iex> xml = """
       ...> <?xml version="1.0" encoding="UTF-8"?>
@@ -51,7 +84,23 @@ defmodule XMap do
       iex> XMap.from_xml(xml, keys: :atoms)
       %{post: %{stats: %{likes: "3", visits: "1000"}, title: "Hello world!"}}
 
-  Both XML attributes and comments are ignored.
+
+  ### Empty XML nodes
+
+  Empty XML nodes are parsed as empty maps:
+
+      iex> xml = """
+      ...> <?xml version="1.0" encoding="UTF-8"?>
+      ...> <post>
+      ...>   <author/>
+      ...>   <body>Hello world!</body>
+      ...>   <footer></footer>
+      ...> </post>
+      ...> """
+      iex> XMap.from_xml(xml, keys: :atoms)
+      %{post: %{author: %{}, body: "Hello world!", footer: %{}}}
+
+  ### Casting
 
   The type casting of the values is delegated to the developer.
   '''
