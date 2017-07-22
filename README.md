@@ -1,5 +1,9 @@
 # XMap
 
+[![Build Status](https://travis-ci.org/fertapric/xmap.svg?branch=master)](https://travis-ci.org/fertapric/xmap)
+[![Inline docs](http://inch-ci.org/github/fertapric/xmap.svg)](http://inch-ci.org/github/fertapric/xmap)
+[![Deps Status](https://beta.hexfaktor.org/badge/all/github/fertapric/xmap.svg)](https://beta.hexfaktor.org/github/fertapric/xmap)
+
 XML to Map converter.
 
 XMap transforms an XML string into a [`Map`](https://hexdocs.pm/elixir/Map.html) containing a collection of pairs where the key is the node name and the value is its content.
@@ -27,7 +31,7 @@ iex> XMap.from_xml(xml, keys: :atoms)
 %{blog: %{post: [%{title: "Hello Elixir!"}, %{title: "Hello World!"}]}}
 ```
 
-Unless you absolutely know what you're doing, do not use the `keys: :atoms` option.
+Keys can be converted to atoms with the `keys: :atoms` option. Unless you absolutely know what you're doing, do not use the `keys: :atoms` option.
 Atoms are not garbage-collected, see Erlang Efficiency Guide for more info:
 
 > Atoms are not garbage-collected. Once an atom is created, it will never
