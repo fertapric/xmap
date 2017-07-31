@@ -1,5 +1,5 @@
 defmodule XMapTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   doctest XMap
 
   test "parses empty nodes as empty maps" do
