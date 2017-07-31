@@ -24,7 +24,7 @@ defmodule XMap.Mixfile do
 
   defp deps do
     [
-      {:ex_doc, "~> 0.14", only: [:test, :docs], runtime: false},
+      {:ex_doc, "~> 0.16", only: [:test, :docs], runtime: false},
       {:inch_ex, ">= 0.0.0", only: [:dev, :docs], runtime: false}
     ]
   end
