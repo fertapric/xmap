@@ -117,7 +117,7 @@ defmodule XMap do
 
   defp parse_record([]), do: %{}
   defp parse_record([head | tail]), do: parse_record(head) |> merge_records(parse_record(tail))
-  defp parse_record({:xmlText, _, _, _, value, _}), do: String.strip(to_string(value))
+  defp parse_record({:xmlText, _, _, _, value, _}), do: value |> to_string() |> String.trim()
   defp parse_record({:xmlElement, name, _, _, _, _, _, _, value, _, _, _}) do
     %{"#{name}" => parse_record(value)}
   end
