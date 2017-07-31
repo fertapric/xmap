@@ -67,7 +67,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/fertap
 Clone the repo and fetch its dependencies:
 
 ```shell
-$ git clone https://github.com/fertapric/xmap.git
+$ git clone git@github.com:fertapric/xmap.git
 $ cd xmap
 $ mix deps.get
 $ mix test
