@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/fertapric/xmap.svg?branch=master)](https://travis-ci.org/fertapric/xmap)
 [![Inline docs](http://inch-ci.org/github/fertapric/xmap.svg)](http://inch-ci.org/github/fertapric/xmap)
-[![Deps Status](https://beta.hexfaktor.org/badge/all/github/fertapric/xmap.svg)](https://beta.hexfaktor.org/github/fertapric/xmap)
 
 XML to Map converter.
 
