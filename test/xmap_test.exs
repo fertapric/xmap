@@ -45,4 +45,23 @@ defmodule XMapTest do
       }
     }
   end
+
+  test "parses CDATA" do
+    xml = """
+    <?xml version="1.0" encoding="UTF-8" ?>
+    <post>
+      <title>Hello!</title>
+      <body><![CDATA[Hello world!]]></body>
+    </post>
+    """
+
+    map = XMap.from_xml(xml, keys: :atoms)
+
+    assert map == %{
+      post: %{
+        title: "Hello!",
+        body: "Hello world!"
+      }
+    }
+  end
 end
