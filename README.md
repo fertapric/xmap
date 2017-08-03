@@ -1,7 +1,6 @@
 # XMap
 
 [![Build Status](https://travis-ci.org/fertapric/xmap.svg?branch=master)](https://travis-ci.org/fertapric/xmap)
-[![Inline docs](http://inch-ci.org/github/fertapric/xmap.svg)](http://inch-ci.org/github/fertapric/xmap)
 
 XML to Map converter.
 
