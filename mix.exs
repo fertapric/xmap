@@ -9,11 +9,13 @@ defmodule XMap.Mixfile do
       name: "XMap",
       version: @version,
       elixir: "~> 1.4",
+      elixirc_paths: elixirc_paths(Mix.env),
       deps: deps(),
       package: package(),
       description: description(),
-      docs: docs()
-   ]
+      docs: docs(),
+      test_coverage: [tool: XMap.Cover]
+    ]
   end
 
   def application do
@@ -21,6 +23,10 @@ defmodule XMap.Mixfile do
       extra_applications: [:xmerl]
     ]
   end
+
+  # Specifies which paths to compile per environment.
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_),     do: ["lib"]
 
   defp deps do
     [
