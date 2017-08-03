@@ -4,15 +4,15 @@ defmodule XMapTest do
 
   test "parses empty nodes as empty maps" do
     xml = """
-      <comments>
-        <comment>
-          <author/>
-          <body>Hello world!</body>
-          <footer></footer>
-        </comment>
-        <comment></comment>
-        <comment/>
-      </comments>
+    <comments>
+      <comment>
+        <author/>
+        <body>Hello world!</body>
+        <footer></footer>
+      </comment>
+      <comment></comment>
+      <comment/>
+    </comments>
     """
 
     map = XMap.from_xml(xml, keys: :atoms)
