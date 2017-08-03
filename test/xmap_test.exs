@@ -28,7 +28,7 @@ defmodule XMapTest do
     }
   end
 
-  test "parses HTML special entities as a single text entry" do
+  test "parses HTML special entities" do
     xml = """
     <comment>
       <author>Fernando Tapia</author>
