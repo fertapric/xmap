@@ -12,6 +12,7 @@ defmodule XMap.Mixfile do
       elixirc_paths: elixirc_paths(Mix.env),
       deps: deps(),
       package: package(),
+      preferred_cli_env: [docs: :docs],
       description: description(),
       docs: docs(),
       test_coverage: [tool: XMap.Cover]
