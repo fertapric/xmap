@@ -54,7 +54,7 @@ $ mix deps.get
 
 ## Documentation
 
-Documentation is available at http://hexdocs.pm/xmap
+Documentation is available at https://hexdocs.pm/xmap
 
 ## Contributing
 
