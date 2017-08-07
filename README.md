@@ -79,7 +79,7 @@ $ mix docs
 
 ## License
 
-**XMap** is released under the [MIT License](http://www.opensource.org/licenses/MIT).
+**XMap** is released under the [MIT License](https://opensource.org/licenses/MIT).
 
 ## Author
 
