@@ -74,7 +74,7 @@ $ mix test
 ### Building docs
 
 ```shell
-$ MIX_ENV=docs mix docs
+$ mix docs
 ```
 
 ## License
