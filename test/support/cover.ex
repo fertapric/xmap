@@ -9,7 +9,8 @@ defmodule XMap.Cover do
   The special functions `__info__` and `__struct__` are filtered out of the coverage.
   """
   def start(compile_path, opts) do
-    :cover.stop() # Ensure to clear previous :cover result for avoiding duplicated display (umbrella)
+    # Ensure to clear previous :cover result for avoiding duplicated display (umbrella)
+    :cover.stop()
     :cover.start()
 
     case compile_path |> to_charlist() |> :cover.compile_beam_directory() do
@@ -18,7 +19,8 @@ defmodule XMap.Cover do
     end
 
     output = opts[:output]
-    modules = filter_modules(:cover.modules, Keyword.get(opts, :ignore_modules, []) ++ [__MODULE__])
+    ignored_modules = Keyword.get(opts, :ignore_modules, [])
+    modules = filter_modules(:cover.modules, [__MODULE__ | ignored_modules])
 
     fn ->
       File.mkdir_p!(output)
@@ -29,7 +31,7 @@ defmodule XMap.Cover do
           IO.puts("Covered 0 lines of #{non_covered} (0%)")
         {covered, non_covered} ->
           lines = covered + non_covered
-          coverage = (covered * 100 / lines) |> Float.round(2)
+          coverage = Float.round(covered * 100 / lines, 2)
 
           IO.puts("Covered #{covered} lines of #{lines} (#{coverage}%)")
         end

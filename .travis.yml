@@ -17,6 +17,7 @@ install:
   - mix deps.get
 script:
   - mix test --cover
+  - mix credo
 notifications:
   email:
     - fertapric@gmail.com
