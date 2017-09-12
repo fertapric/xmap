@@ -77,10 +77,8 @@ $ mix test
 $ mix docs
 ```
 
-## License
+## Copyright and License
 
-**XMap** is released under the [MIT License](https://opensource.org/licenses/MIT).
+Copyright 2017 Fernando Tapia Rico
 
-## Author
-
-Fernando Tapia Rico, [@fertapric](https://twitter.com/fertapric)
+XMap source code is licensed under the [MIT License](LICENSE).
