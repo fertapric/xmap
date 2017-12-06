@@ -31,9 +31,9 @@ defmodule XMap.Mixfile do
 
   defp deps do
     [
-      {:credo, "~> 0.8.10", only: :dev, runtime: false},
-      {:ex_doc, "~> 0.18.1", only: :docs, runtime: false},
-      {:inch_ex, ">= 0.0.0", only: :docs, runtime: false}
+      {:credo, "~> 0.8.10", only: :dev},
+      {:ex_doc, "~> 0.18.1", only: :docs},
+      {:inch_ex, ">= 0.0.0", only: :docs}
     ]
   end
 
