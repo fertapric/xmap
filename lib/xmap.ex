@@ -103,34 +103,72 @@ defmodule XMap do
 
   The type casting of the values is delegated to the developer.
   '''
-  @spec from_xml(String.t, keyword) :: map
-  def from_xml(xml, options \\ [])
-  def from_xml(xml, keys: :atoms), do: xml |> from_xml() |> atomize_keys()
-  def from_xml(xml, []) do
+
+  @options_defaults %{keys: :string, disable_attributes: true}
+
+  @spec from_xml(String.t(), keyword) :: map
+  def from_xml(xml, options \\ []) do
+    %{keys: keys, disable_attributes: attributes_disabled?} =
+      Enum.into(options, @options_defaults)
+
     xml
     |> :erlang.bitstring_to_list()
     |> :xmerl_scan.string(space: :normalize, comments: false)
     |> elem(0)
-    |> parse_record()
+    |> parse_record(attributes_disabled?)
+    |> maybe_atomize_keys(keys)
   end
 
-  defp parse_record([]), do: %{}
-  defp parse_record([head]), do: parse_record(head)
-  defp parse_record([head | tail]), do: head |> parse_record() |> merge_records(parse_record(tail))
-  defp parse_record({:xmlText, _, _, _, value, _}), do: value |> to_string() |> String.trim()
-  defp parse_record({:xmlElement, name, _, _, _, _, _, _, value, _, _, _}) do
-    %{"#{name}" => parse_record(value)}
+  defp parse_record([], _), do: %{}
+  defp parse_record([head], attributes_disabled?), do: parse_record(head, attributes_disabled?)
+
+  defp parse_record([head | tail], attributes_disabled?),
+    do:
+      head
+      |> parse_record(attributes_disabled?)
+      |> merge_records(parse_record(tail, attributes_disabled?))
+
+  defp parse_record({:xmlText, _, _, _, value, _}, attributes_disabled?),
+    do: value |> to_string() |> String.trim()
+
+  defp parse_record(
+         {:xmlElement, name, _, _, _, _, _, attributes, value, _, _, _},
+         attributes_disabled?
+       ) do
+    %{"#{name}" => parse_record(value, attributes_disabled?)}
+    |> merge_records(parse_record(attributes, attributes_disabled?))
   end
 
-  defp merge_records(r, ""), do: r # Spaces between tags are normalized but parsed as
-  defp merge_records("", r), do: r # empty xmlText elements.
+  defp parse_record(
+         {:xmlAttribute, name, _, _, _, [{parent_element, _pos} | _tail], _, _, value, _},
+         false
+       ) do
+    %{
+      "#{parent_element |> to_string() |> String.trim()}_#{name}" =>
+        value |> to_string() |> String.trim()
+    }
+  end
+
+  defp parse_record({:xmlAttribute, _, _, _, _, _, _, _, _, _}, true) do
+    %{}
+  end
+
+  # Spaces between tags are normalized but parsed as
+  defp merge_records(r, ""), do: r
+  # empty xmlText elements.
+  defp merge_records("", r), do: r
   defp merge_records(r1, r2) when is_binary(r1) and is_binary(r2), do: r1 <> r2
   defp merge_records(r1, r2), do: Map.merge(r1, r2, fn _, v1, v2 -> List.flatten([v1, v2]) end)
 
+  defp maybe_atomize_keys(map, :atoms), do: map |> atomize_keys()
+  defp maybe_atomize_keys(map, _), do: map
+
   defp atomize_keys([]), do: []
   defp atomize_keys([head | tail]), do: [atomize_keys(head)] ++ atomize_keys(tail)
+
   defp atomize_keys(map) when is_map(map) do
     for {key, value} <- map, into: %{}, do: {String.to_atom(key), atomize_keys(value)}
   end
+
   defp atomize_keys(value), do: value
 end
